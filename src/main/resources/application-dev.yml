@@ -1,0 +1,44 @@
+# 多数据源配置
+mysql:
+  server: 127.0.0.1:3306
+  username: root
+  password: 123456
+master:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${mysql.server}/test?characterEncoding=utf8&useSSL=false
+    username: ${mysql.username}
+    password: ${mysql.password}
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  rabbitmq:
+    host: 172.30.3.154
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: /
+  redis:
+    password: jollytest
+    max-total: 1000
+    max-Idle: 1000
+    max-wait-millis: 600000
+    cluster:
+      nodes: 172.30.3.119:7000,172.30.3.119:7001,172.30.3.119:7002
+      max-redirects: 3
+swagger:
+  enable: true
