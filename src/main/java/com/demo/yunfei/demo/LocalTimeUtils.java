@@ -30,6 +30,16 @@ public class LocalTimeUtils {
     }
 
 
+    /**
+     * LocalDateTime
+     */
+    public static void localDateTime(){
+        LocalDateTime now = LocalDateTime.now();
+        now = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
+        now=LocalDateTime.of(2018,10,12,12,30,20);
+    }
+
+
     public static void main(String[] args) {
         localDate();
     }
