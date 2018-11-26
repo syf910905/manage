@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/login").loginProcessingUrl("/login/form")
+        http.formLogin().loginPage("/login").loginProcessingUrl("/login/init")
                 .successHandler(successHandel)
                 .failureHandler(failHandel)
                 .permitAll()
@@ -48,7 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60)
                 .and()
-                .authorizeRequests().anyRequest().access("@verifyService.hasPermission(request,authentication)")
+                .authorizeRequests()
+                .antMatchers("/whoim", "/index", "favicon.ico").permitAll()
+                .anyRequest().access("@verifyService.hasPermission(request,authentication)")
                 .and()
                 .csrf().disable();
     }
@@ -58,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(provider);
     }
 
-    @Resource(name="masterDataSource")
+    @Resource
     private DataSource dataSource;
 
     @Bean

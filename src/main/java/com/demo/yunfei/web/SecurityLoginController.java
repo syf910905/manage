@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -22,24 +23,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class SecurityLoginController {
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String login(){
         return "login-security";
     }
 
-    @PostMapping("/login/form")
-    @ResponseBody
-    public HttpMessageResult loginIn(String username, String password, boolean rememberMe){
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken passwordToken=new UsernamePasswordToken(username,password,rememberMe);
-        try {
-            subject.login(passwordToken);
-        } catch (AuthenticationException e) {
-            log.info("对用户[" + username + "]进行登录验证..验证未通过{}", e.getMessage());
-            return HttpMessageResult.failure(500,e.getMessage());
-        }
-        return HttpMessageResult.success();
-    }
 
     @GetMapping("/index")
     public String index(){
@@ -59,6 +47,12 @@ public class SecurityLoginController {
     @GetMapping("/whoim")
     @ResponseBody
     public Object whoim(){
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @RequestMapping("login/init")
+    @ResponseBody
+    public Object init(){
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

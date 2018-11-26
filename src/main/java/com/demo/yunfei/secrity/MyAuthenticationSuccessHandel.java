@@ -30,6 +30,6 @@ public class MyAuthenticationSuccessHandel extends SavedRequestAwareAuthenticati
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(map));
 
-        new DefaultRedirectStrategy().sendRedirect(request,response,"/whoim");
+       // new DefaultRedirectStrategy().sendRedirect(request,response,"/whoim");
     }
 }
